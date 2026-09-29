@@ -1,0 +1,260 @@
+# kmnapps.xyz - reverse proxy for all apps (HTTP; certbot --nginx adds SSL later)
+# Each app: standard proxy headers + websocket support + generous timeouts for AI calls
+
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+# ---------- shared proxy defaults ----------
+# (included inline per server via copy-paste to keep this file self-contained)
+
+# ---------- apex: landing page ----------
+server {
+    listen 80;
+    server_name kmnapps.xyz;
+    root /var/www/kmnapps.xyz;
+    index index.html;
+    location / { try_files $uri $uri/ =404; }
+}
+
+server {
+    listen 80;
+    server_name www.kmnapps.xyz;
+    return 301 https://kmnapps.xyz$request_uri;
+}
+
+# ---------- money tracker (3001) ----------
+server {
+    listen 80;
+    server_name money.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- ppt slide maker (3002) ----------
+server {
+    listen 80;
+    server_name ppt.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3002;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- diabetes app (3003) ----------
+server {
+    listen 80;
+    server_name diabetes.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3003;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- svg art studio (3004) ----------
+server {
+    listen 80;
+    server_name svg.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3004;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- perfume shop (3005) ----------
+server {
+    listen 80;
+    server_name perfume.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3005;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- cafe management (3006) ----------
+server {
+    listen 80;
+    server_name cafe.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3006;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- weather dashboard ts2 (3007) ----------
+server {
+    listen 80;
+    server_name weather.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3007;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- shwe baydin horoscope (3008) ----------
+server {
+    listen 80;
+    server_name baydin.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3008;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- image generator (3009) ----------
+server {
+    listen 80;
+    server_name image.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3009;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- pvz myanmar game (3010) ----------
+server {
+    listen 80;
+    server_name pvz.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- baby tracker (3011) ----------
+server {
+    listen 80;
+    server_name baby.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3011;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- bedtime stories (3013) ----------
+server {
+    listen 80;
+    server_name stories.kmnapps.xyz;
+    location / {
+        proxy_pass http://127.0.0.1:3013;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# ---------- netdata monitor (19996, basic auth) ----------
+server {
+    listen 80;
+    server_name monitor.kmnapps.xyz;
+    auth_basic "Netdata";
+    auth_basic_user_file /etc/nginx/.htpasswd-netdata;
+    location / {
+        proxy_pass http://127.0.0.1:19996;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;
+    }
+}
